@@ -11,18 +11,15 @@ file(GLOB BETTER_MOVESET_SRC
     "include/*.hxx"
 )
 
-add_executable(BetterSunshineMoveset ${BETTER_MOVESET_SRC})
+add_executable(BetterSunshineModule ${BETTER_MOVESET_SRC})
 add_subdirectory(lib/BetterSunshineEngine)
 
-target_link_libraries(BetterSunshineMoveset PUBLIC
-                      BetterSunshineEngine
-                      ${PROJECT_SOURCE_DIR}/lib/libKuriboClang/libKuriboClang.a
-)
+target_link_libraries(BetterSunshineModule PUBLIC BetterSunshineEngine)
 
-target_include_directories(BetterSunshineMoveset PUBLIC "include")
+target_include_directories(BetterSunshineModule PUBLIC "include")
 
-target_compile_options(BetterSunshineMoveset PUBLIC ${SMS_COMPILE_FLAGS})
-target_link_options(BetterSunshineMoveset PUBLIC ${SMS_LINK_FLAGS})
+target_compile_options(BetterSunshineModule PUBLIC ${SMS_COMPILE_FLAGS})
+target_link_options(BetterSunshineModule PUBLIC ${SMS_LINK_FLAGS})
 
 list(APPEND BETTER_MOVESET_CONFIG_DEFINES "KURIBO_NO_TYPES" "BETTER_MOVESET_VERSION=\"v1.0\"")
 
@@ -31,5 +28,5 @@ target_compile_definitions(BetterSunshineModule PUBLIC ${BETTER_MOVESET_CONFIG_D
 add_custom_target(${PROJECT_NAME}.kxe ALL DEPENDS ${PROJECT_NAME})
 add_custom_command(
     TARGET ${PROJECT_NAME}.kxe
-    COMMAND ${SMS_KURIBO_CONVERTER_PATH} ARGS ${PROJECT_NAME} ${PROJECT_NAME}.kxe ${SMS_LINKER_MAP_PATH}
+    COMMAND ${PROJECT_SOURCE_DIR}/lib/BetterSunshineEngine/tools/KuriboConverter.exe ARGS ${PROJECT_NAME} ${PROJECT_NAME}.kxe ${PROJECT_SOURCE_DIR}/lib/BetterSunshineEngine/maps/${SMS_REGION}.map
 )

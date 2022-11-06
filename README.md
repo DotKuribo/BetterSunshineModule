@@ -46,21 +46,17 @@ BetterSunshineEngine provides utilities to hook into different points of the gam
 
 #include <SMS/System/Application.hxx>
 
-#include <BetterSMS/module.hxx>
 #include <BetterSMS/game.hxx>
+#include <BetterSMS/module.hxx>
 #include <BetterSMS/stage.hxx>
 
 /*
 / Example module that logs to the console and draws to the screen during gameplay
 */
 
-static void onGameInit(TApplication *app) {
-    OSReport("Game initialized!\n");
-}
+static void onGameInit(TApplication *app) { OSReport("Game initialized!\n"); }
 
-static void onGameBoot(TApplication *app) {
-    OSReport("Game booted!\n");
-}
+static void onGameBoot(TApplication *app) { OSReport("Game booted!\n"); }
 
 static J2DTextBox *sOurTextBox = nullptr;
 
@@ -69,9 +65,7 @@ static void onStageInit(TMarDirector *director) {
     OSReport("Textbox initialization successful!\n");
 }
 
-static void onStageUpdate(TMarDirector *director) {
-    OSReport("Hello world!\n");
-}
+static void onStageUpdate(TMarDirector *director) { OSReport("Hello world!\n"); }
 
 static void onStageDraw2D(TMarDirector *director, const J2DOrthoGraph *ortho) {
     sOurTextBox->draw(180, 140);  // Draw text to the screen at x=180, y=140
@@ -102,8 +96,7 @@ static void deinitModule() {
 }
 
 // Definition block
-KURIBO_MODULE_BEGIN("OurModule", "JoshuaMK", "v1.0")
-{
+KURIBO_MODULE_BEGIN("OurModule", "JoshuaMK", "v1.0") {
     // Set the load and unload callbacks to our registration functions
     KURIBO_EXECUTE_ON_LOAD { initModule(); }
     KURIBO_EXECUTE_ON_UNLOAD { deinitModule(); }
