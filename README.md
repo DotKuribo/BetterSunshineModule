@@ -105,3 +105,11 @@ KURIBO_MODULE_END()
 ```
 
 The benefit of designing your module this way is generalization, ease of patching, and the ability to mix your module with other modules more easily!
+
+## Compiling
+
+Simply build the CMake project using your favorite tool (Visual Studio is recommended).
+
+## Usage
+
+Place the compiled module in the directory `/files/Kuribo!/Mods/` of your extracted ISO. Make sure it is ordered after BetterSunshineEngine.kxe (Easiest way is to add an underscore at the start of the module filename).
