@@ -44,6 +44,8 @@ BetterSunshineEngine provides utilities to hook into different points of the gam
 #include <JSystem/J2D/J2DOrthoGraph.hxx>
 #include <JSystem/J2D/J2DTextBox.hxx>
 
+#include <SMS/System/Appliction.hxx>
+
 #include <BetterSMS/module.hxx>
 #include <BetterSMS/game.hxx>
 #include <BetterSMS/stage.hxx>
