@@ -485,7 +485,7 @@ static void initModule() {
         saveInfo.mSaveName    = sSettingsGroup.getName();
         saveInfo.mBlocks      = 1;
         saveInfo.mGameCode    = 'GMSB';
-        saveInfo.mCompany     = 0x3032;  // '02'
+        saveInfo.mCompany     = 0x3031;  // '01'
         saveInfo.mBannerFmt   = CARD_BANNER_CI;
         saveInfo.mBannerImage = GetResourceTextureHeader(sSaveBnr);
         saveInfo.mIconFmt     = CARD_ICON_CI;
