@@ -4,14 +4,14 @@ project(BetterSunshineModule VERSION 1.0)
 
 set(CMAKE_CXX_STANDARD 20)
 
-file(GLOB BETTER_MOVESET_SRC
+file(GLOB BETTER_MODULE_SRC
     "src/*.c"
     "src/*.cpp"
     "include/*.h"
     "include/*.hxx"
 )
 
-add_executable(BetterSunshineModule ${BETTER_MOVESET_SRC})
+add_executable(BetterSunshineModule ${BETTER_MODULE_SRC})
 add_subdirectory(lib/BetterSunshineEngine)
 
 target_link_libraries(BetterSunshineModule PUBLIC BetterSunshineEngine)
@@ -21,9 +21,9 @@ target_include_directories(BetterSunshineModule PUBLIC "include")
 target_compile_options(BetterSunshineModule PUBLIC ${SMS_COMPILE_FLAGS})
 target_link_options(BetterSunshineModule PUBLIC ${SMS_LINK_FLAGS})
 
-list(APPEND BETTER_MOVESET_CONFIG_DEFINES "KURIBO_NO_TYPES" "BETTER_MOVESET_VERSION=\"v1.0\"")
+list(APPEND BETTER_MODULE_CONFIG_DEFINES "KURIBO_NO_TYPES" "BETTER_MOVESET_VERSION=\"v1.0\"")
 
-target_compile_definitions(BetterSunshineModule PUBLIC ${BETTER_MOVESET_CONFIG_DEFINES})
+target_compile_definitions(BetterSunshineModule PUBLIC ${BETTER_MODULE_CONFIG_DEFINES})
 
 add_custom_target(${PROJECT_NAME}.kxe ALL DEPENDS ${PROJECT_NAME})
 add_custom_command(
