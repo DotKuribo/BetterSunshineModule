@@ -14,7 +14,6 @@
 #include <BetterSMS/stage.hxx>
 #include <BetterSMS/loading.hxx>
 #include <BetterSMS/settings.hxx>
-#include <BetterSMS/icons.hxx>
 
 /*
 / Example module that logs to the console and draws to the screen during gameplay
@@ -403,8 +402,11 @@ static const u8 sSaveIcon[] = {
     0xcd, 0xcc, 0xd6, 0x73, 0xb9, 0x4a, 0x35, 0x34, 0x48, 0x54, 0xc4, 0x82, 0x57, 0x43, 0x24, 0x33,
     0x6b, 0x87, 0x6b, 0x64, 0x58, 0x53, 0x34, 0x32};
 
-static BetterSMS::Settings::SettingsGroup sSettingsGroup("Demo Module", 1, 0,
-                                                         BetterSMS::Settings::Priority::MODE);
+/*
+/ Settings
+*/
+
+static BetterSMS::Settings::SettingsGroup sSettingsGroup(1, 0, BetterSMS::Settings::Priority::MODE);
 
 static s32 sCoordX, sCoordY = 0;
 static s32 sSpeedX, sSpeedY = 1;
@@ -416,10 +418,16 @@ static J2DTextBox *sOurTextBoxBackDrop = nullptr;
 static bool sXTravelsRight, sYTravelsDown = true;
 
 /*
+/ Module Info
+*/
+
+static BetterSMS::ModuleInfo sModuleInfo("Demo Module", 1, 1, &sSettingsGroup);
+
+/*
 / Callbacks
 */
 
-static void onStageInit(TMarDirector *director) {
+BETTER_SMS_FOR_CALLBACK static void onStageInit(TMarDirector *director) {
     sOurTextBox = new J2DTextBox(gpSystemFont->mFont, "Hello Screen!");
     {
         sOurTextBox->mGradientTop    = {160, 210, 10, 255};  // RGBA
@@ -438,7 +446,7 @@ static void onStageInit(TMarDirector *director) {
     OSReport("Textbox initialization successful!\n");
 }
 
-static void onStageUpdate(TMarDirector *director) {
+BETTER_SMS_FOR_CALLBACK static void onStageUpdate(TMarDirector *director) {
     if (sXTravelsRight)
         sCoordX += sSpeedX;
     else
@@ -460,9 +468,10 @@ static void onStageUpdate(TMarDirector *director) {
         sYTravelsDown = true;
 }
 
-static void onStageDraw2D(TMarDirector *director, const J2DOrthoGraph *ortho) {
+BETTER_SMS_FOR_CALLBACK static void onStageDraw2D(TMarDirector *director,
+                                                  const J2DOrthoGraph *ortho) {
     sOurTextBoxBackDrop->draw(sCoordX + 1, sCoordY + 2);  // Draw backdrop text to the screen
-    sOurTextBox->draw(sCoordX, sCoordY);  // Draw text to the screen
+    sOurTextBox->draw(sCoordX, sCoordY);                  // Draw text to the screen
 }
 
 // Module definition
@@ -471,9 +480,9 @@ static void initModule() {
     OSReport("Initializing Module...\n");
 
     // Register callbacks
-    BetterSMS::Stage::registerInitCallback("OurModule_StageInitCallBack", onStageInit);
-    BetterSMS::Stage::registerUpdateCallback("OurModule_StageUpdateCallBack", onStageUpdate);
-    BetterSMS::Stage::registerDraw2DCallback("OurModule_StageDrawCallBack", onStageDraw2D);
+    BetterSMS::Stage::registerInitCallback("DemoModule_StageInitCallBack", onStageInit);
+    BetterSMS::Stage::registerUpdateCallback("DemoModule_StageUpdateCallBack", onStageUpdate);
+    BetterSMS::Stage::registerDraw2DCallback("DemoModule_StageDrawCallBack", onStageDraw2D);
 
     // Register settings
     sXSpeedSetting.setValueRange({-10, 10, 1});
@@ -482,28 +491,28 @@ static void initModule() {
     sSettingsGroup.addSetting(&sYSpeedSetting);
     {
         auto &saveInfo        = sSettingsGroup.getSaveInfo();
-        saveInfo.mSaveName    = sSettingsGroup.getName();
+        saveInfo.mSaveName    = BetterSMS::Settings::getGroupName(sSettingsGroup);
         saveInfo.mBlocks      = 1;
         saveInfo.mGameCode    = 'GMSB';
         saveInfo.mCompany     = 0x3031;  // '01'
         saveInfo.mBannerFmt   = CARD_BANNER_CI;
-        saveInfo.mBannerImage = GetResourceTextureHeader(sSaveBnr);
+        saveInfo.mBannerImage = reinterpret_cast<const ResTIMG *>(sSaveBnr);
         saveInfo.mIconFmt     = CARD_ICON_CI;
         saveInfo.mIconSpeed   = CARD_SPEED_SLOW;
         saveInfo.mIconCount   = 2;
-        saveInfo.mIconTable   = GetResourceTextureHeader(sSaveIcon);
+        saveInfo.mIconTable   = reinterpret_cast<const ResTIMG *>(sSaveIcon);
         saveInfo.mSaveGlobal  = true;
     }
-    BetterSMS::Settings::registerGroup("Demo Module", &sSettingsGroup);
+    BetterSMS::registerModule(&sModuleInfo);
 }
 
 static void deinitModule() {
     OSReport("Deinitializing Module...\n");
 
     // Cleanup callbacks
-    BetterSMS::Stage::deregisterInitCallback("OurModule_StageInitCallBack");
-    BetterSMS::Stage::deregisterUpdateCallback("OurModule_StageUpdateCallBack");
-    BetterSMS::Stage::deregisterDraw2DCallback("OurModule_StageDrawCallBack");
+    BetterSMS::Stage::deregisterInitCallback("DemoModule_StageInitCallBack");
+    BetterSMS::Stage::deregisterUpdateCallback("DemoModule_StageUpdateCallBack");
+    BetterSMS::Stage::deregisterDraw2DCallback("DemoModule_StageDrawCallBack");
 }
 
 // Definition block
