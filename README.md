@@ -124,8 +124,12 @@ static void onStageDraw2D(TMarDirector *director, const J2DOrthoGraph *ortho) {
 
 // Module definition
 
+static BetterSMS::ModuleInfo sModuleInfo("Our Module", 1, 0, nullptr);
+
 static void initModule() {
     OSReport("Initializing Module...\n");
+
+    BetterSMS::registerModule(&sModuleInfo);
 
     // Register callbacks
     BetterSMS::Stage::registerInitCallback("OurModule_StageInitCallBack", onStageInit);
@@ -135,6 +139,8 @@ static void initModule() {
 
 static void deinitModule() {
     OSReport("Deinitializing Module...\n");
+
+    BetterSMS::deregisterModule(&sModuleInfo);
 
     // Cleanup callbacks
     BetterSMS::Stage::deregisterInitCallback("OurModule_StageInitCallBack");
@@ -156,6 +162,7 @@ The benefit of designing your module this way is generalization, ease of patchin
 ## Compiling
 
 Simply build the CMake project using your favorite tool (Visual Studio is recommended).
+Clang comes shipped with the template's Better Sunshine Engine submodule.
 
 ## Usage
 
