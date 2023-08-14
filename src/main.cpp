@@ -1,8 +1,8 @@
-#include <Dolphin/types.h>
 #include <Dolphin/CARD.h>
-#include <Dolphin/math.h>
 #include <Dolphin/OS.h>
+#include <Dolphin/math.h>
 #include <Dolphin/string.h>
+#include <Dolphin/types.h>
 
 #include <JSystem/J2D/J2DOrthoGraph.hxx>
 #include <JSystem/J2D/J2DTextBox.hxx>
@@ -10,10 +10,10 @@
 #include <SMS/System/Application.hxx>
 
 #include <BetterSMS/game.hxx>
-#include <BetterSMS/module.hxx>
-#include <BetterSMS/stage.hxx>
 #include <BetterSMS/loading.hxx>
+#include <BetterSMS/module.hxx>
 #include <BetterSMS/settings.hxx>
+#include <BetterSMS/stage.hxx>
 
 /*
 / Example module that logs to the console and draws to the screen during gameplay
@@ -413,7 +413,7 @@ static s32 sSpeedX, sSpeedY = 1;
 static BetterSMS::Settings::IntSetting sXSpeedSetting("X Speed", &sSpeedX);
 static BetterSMS::Settings::IntSetting sYSpeedSetting("Y Speed", &sSpeedY);
 
-static J2DTextBox *sOurTextBox = nullptr;
+static J2DTextBox *sOurTextBox         = nullptr;
 static J2DTextBox *sOurTextBoxBackDrop = nullptr;
 static bool sXTravelsRight, sYTravelsDown = true;
 
