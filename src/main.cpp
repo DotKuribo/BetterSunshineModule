@@ -480,9 +480,9 @@ static void initModule() {
     OSReport("Initializing Module...\n");
 
     // Register callbacks
-    BetterSMS::Stage::registerInitCallback("DemoModule_StageInitCallBack", onStageInit);
-    BetterSMS::Stage::registerUpdateCallback("DemoModule_StageUpdateCallBack", onStageUpdate);
-    BetterSMS::Stage::registerDraw2DCallback("DemoModule_StageDrawCallBack", onStageDraw2D);
+    BetterSMS::Stage::addInitCallback(onStageInit);
+    BetterSMS::Stage::addUpdateCallback(onStageUpdate);
+    BetterSMS::Stage::addDraw2DCallback(onStageDraw2D);
 
     // Register settings
     sXSpeedSetting.setValueRange({-10, 10, 1});
@@ -503,22 +503,12 @@ static void initModule() {
         saveInfo.mIconTable   = reinterpret_cast<const ResTIMG *>(sSaveIcon);
         saveInfo.mSaveGlobal  = true;
     }
-    BetterSMS::registerModule(&sModuleInfo);
-}
-
-static void deinitModule() {
-    OSReport("Deinitializing Module...\n");
-
-    // Cleanup callbacks
-    BetterSMS::Stage::deregisterInitCallback("DemoModule_StageInitCallBack");
-    BetterSMS::Stage::deregisterUpdateCallback("DemoModule_StageUpdateCallBack");
-    BetterSMS::Stage::deregisterDraw2DCallback("DemoModule_StageDrawCallBack");
+    BetterSMS::registerModule(sModuleInfo);
 }
 
 // Definition block
 KURIBO_MODULE_BEGIN("OurModule", "JoshuaMK", "v1.0") {
     // Set the load and unload callbacks to our registration functions
     KURIBO_EXECUTE_ON_LOAD { initModule(); }
-    KURIBO_EXECUTE_ON_UNLOAD { deinitModule(); }
 }
 KURIBO_MODULE_END()
