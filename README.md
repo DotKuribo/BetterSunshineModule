@@ -24,7 +24,7 @@ You can port code to different regions using the macro `SMS_PORT_REGION(us, eu, 
 ## Patching
 
 ### Low Level
-BetterSunshineEngine provides utilities to patch arbitary memory and code through Kuribo. The following macros are provided:
+BetterSunshineEngine provides utilities to patch arbitrary memory and code through Kuribo. The following macros are provided:
 
 ```c++
 #include <BetterSMS/module.hxx>
@@ -34,10 +34,10 @@ SMS_PATCH_BL(address, function);  // Calls the specified function at the address
 SMS_WRITE_32(address, value);  // Writes the specified value at the address
 ```
 
-These are the fundamental patching methods for low level module construction.
+These are the fundamental patching methods for low-level module construction.
 
 ### High Level
-BetterSunshineEngine provides utilities to hook into different points of the game generically. These are very useful for non-volatility and multi-module support. Examples shown below:
+BetterSunshineEngine provides utilities to hook into different points of the game generically. These are very useful for non-volatility and multi-module support. Examples are shown below:
 
 ```c++
 #include <Dolphin/OS.h>
@@ -132,38 +132,26 @@ static void initModule() {
     BetterSMS::registerModule(&sModuleInfo);
 
     // Register callbacks
-    BetterSMS::Stage::registerInitCallback("OurModule_StageInitCallBack", onStageInit);
-    BetterSMS::Stage::registerUpdateCallback("OurModule_StageUpdateCallBack", onStageUpdate);
-    BetterSMS::Stage::registerDraw2DCallback("OurModule_StageDrawCallBack", onStageDraw2D);
-}
-
-static void deinitModule() {
-    OSReport("Deinitializing Module...\n");
-
-    BetterSMS::deregisterModule(&sModuleInfo);
-
-    // Cleanup callbacks
-    BetterSMS::Stage::deregisterInitCallback("OurModule_StageInitCallBack");
-    BetterSMS::Stage::deregisterUpdateCallback("OurModule_StageUpdateCallBack");
-    BetterSMS::Stage::deregisterDraw2DCallback("OurModule_StageDrawCallBack");
+    BetterSMS::Stage::addInitCallback(onStageInit);
+    BetterSMS::Stage::addUpdateCallback(onStageUpdate);
+    BetterSMS::Stage::addDraw2DCallback(onStageDraw2D);
 }
 
 // Definition block
 KURIBO_MODULE_BEGIN("OurModule", "JoshuaMK", "v1.0") {
     // Set the load and unload callbacks to our registration functions
     KURIBO_EXECUTE_ON_LOAD { initModule(); }
-    KURIBO_EXECUTE_ON_UNLOAD { deinitModule(); }
 }
 KURIBO_MODULE_END()
 ```
 
-The benefit of designing your module this way is generalization, ease of patching, and the ability to mix your module with other modules more easily!
+The benefits of designing your module this way are generalization, ease of patching, and the ability to mix your module with other modules more easily!
 
 ## Compiling
 
-Simply build the CMake project using your favorite tool (Visual Studio is recommended).
+Build the CMake project using your favorite tool (Visual Studio is recommended).
 Clang comes shipped with the template's Better Sunshine Engine submodule.
 
 ## Usage
 
-Place the compiled module in the directory `/files/Kuribo!/Mods/` of your extracted ISO. Make sure it is ordered after BetterSunshineEngine.kxe (Easiest way is to add an underscore at the start of the module filename).
+Place the compiled module in your extracted ISO's directory `/files/Kuribo!/Mods/`. Make sure it is ordered after BetterSunshineEngine.kxe (The easiest way is to add an underscore at the start of the module filename).
