@@ -76,7 +76,13 @@ static J2DTextBox *sOurTextBoxBackDrop = nullptr;
 static s32 sCoordX, sCoordY = 0;
 static bool sXTravelsRight, sYTravelsDown = true;
 
-static void onStageInit(TMarDirector *director) {
+/*
+/ BETTER_SMS_FOR_CALLBACK ensures that the function is able to be
+/ called by Better Sunshine Engine. Always use it when defining
+/ a new callback you plan to register.
+*/
+
+BETTER_SMS_FOR_CALLBACK static void onStageInit(TMarDirector *director) {
     sOurTextBox = new J2DTextBox(gpSystemFont->mFont, "Hello Screen!");
     {
         sOurTextBox->mGradientTop    = {160, 210, 10, 255};  // RGBA
@@ -95,7 +101,7 @@ static void onStageInit(TMarDirector *director) {
     OSReport("Textbox initialization successful!\n");
 }
 
-static void onStageUpdate(TMarDirector *director) {
+BETTER_SMS_FOR_CALLBACK static void onStageUpdate(TMarDirector *director) {
     if (sXTravelsRight)
         sCoordX += 1;
     else
@@ -117,7 +123,7 @@ static void onStageUpdate(TMarDirector *director) {
         sYTravelsDown = true;
 }
 
-static void onStageDraw2D(TMarDirector *director, const J2DOrthoGraph *ortho) {
+BETTER_SMS_FOR_CALLBACK static void onStageDraw2D(TMarDirector *director, const J2DOrthoGraph *ortho) {
     sOurTextBoxBackDrop->draw(sCoordX + 1, sCoordY + 2);  // Draw backdrop text to the screen
     sOurTextBox->draw(sCoordX, sCoordY);  // Draw text to the screen
 }
